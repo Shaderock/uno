@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>uno</name>
-    <description>Uno game simultation</description>
+    <description>Uno game simulation</description>
 
     <properties>
         <java.version>1.8</java.version>
