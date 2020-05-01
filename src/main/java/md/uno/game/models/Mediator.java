@@ -1,10 +1,10 @@
 package md.uno.game.models;
 
-public class Mediator implements IMediator
-{
-    @Override
-    public void interact(IMediator mediator)
-    {
+import md.uno.game.models.Cards.Card;
 
-    }
+import java.util.ArrayList;
+
+public interface Mediator
+{
+    public void interact(Mediator mediator, ArrayList<Card> cards);
 }

@@ -1,11 +1,11 @@
 package md.uno.game.models;
 
-import md.uno.game.Logic;
+import md.uno.game.GameLogic;
 import md.uno.game.models.Cards.Card;
 
 import java.util.ArrayList;
 
-public class MainDeck
+public class MainDeck extends Deck
 {
     private final ArrayList<Card> stack;
 
@@ -37,7 +37,7 @@ public class MainDeck
 
     public void put(Card card)
     {
-        if (Logic.isPutable(this.getTop(), card))
+        if (GameLogic.isPutable(this.getTop(), card))
         {
             stack.add(card);
         }

@@ -13,9 +13,11 @@ public class UnoApplication
     }
 
     //Singleton для памяти
-    //AbstractFactory для семейств карт
+    //AbstractFactory для семейств карт, но это не точно
+    //ObjectPool для выделения столов
     //Decorator для свойств карт
     //Facade как интерфейс для сайта
     //Mediator для общения на столе
     //Chain of responsibility для ответов
+    //Strategy для махинаций с картами???
 }
