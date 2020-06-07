@@ -4,15 +4,16 @@ import md.uno.game.models.Cards.Card;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Deck extends TableComponent
 {
-    private final ArrayList<Card> cards;
+    protected final ArrayList<Card> cards;
 
     public Deck()
     {
-        this.cards = new ArrayList<Card>();
+        this.cards = new ArrayList<>();
     }
 
     public Deck(Card card)
@@ -21,9 +22,13 @@ public class Deck extends TableComponent
         cards.add(card);
     }
 
-    public Deck(@NotNull ArrayList<Card> cards)
+    public Deck(ArrayList<Card> cards)
     {
-        this.cards = (ArrayList<Card>) cards.clone();
+        this();
+        for (Card card : cards)
+        {
+            this.cards.addAll(cards);
+        }
     }
 
     public void shuffle()
@@ -49,18 +54,17 @@ public class Deck extends TableComponent
         }
     }
 
-
     public Card release()
     {
         return this.release(cards.size() - 1);
     }
 
-    public Card release(int number)
+    public Card release(int orderNumber)
     {
         try
         {
-            Card releasedCard = this.cards.get(number);
-            this.cards.remove(number);
+            Card releasedCard = this.cards.get(orderNumber);
+            this.cards.remove(orderNumber);
             return releasedCard;
 
         } catch (IndexOutOfBoundsException e)
@@ -70,11 +74,19 @@ public class Deck extends TableComponent
         }
     }
 
-    public ArrayList<Card> releaseSeveral(ArrayList<Integer> numbers)
+    public ArrayList<Card> releaseSequence(int sequenceSize)
+    {
+        Integer[] array = new Integer[sequenceSize];
+        Arrays.setAll(array, p -> cards.size() - p - 1);
+
+        return releaseSeveral(new ArrayList<>(Arrays.asList(array)));
+    }
+
+    public ArrayList<Card> releaseSeveral(ArrayList<Integer> orderNumbers)
     {
         ArrayList<Card> cards = new ArrayList<>();
-        numbers.sort(Collections.reverseOrder());
-        for (Integer integer : numbers)
+        orderNumbers.sort(Collections.reverseOrder());
+        for (Integer integer : orderNumbers)
         {
             cards.add(this.cards.get(integer));
             this.cards.remove((int) integer);

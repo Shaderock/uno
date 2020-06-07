@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public interface Mediator
 {
-    public void interact(Mediator mediator, ArrayList<Card> cards);
+    public void interact(TableComponent tableComponent, ArrayList<Card> cards);
 }

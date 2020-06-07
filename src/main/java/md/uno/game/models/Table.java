@@ -9,8 +9,8 @@ public class Table implements Mediator
     private final ArrayList<Player> players;
     private int playerLimit;
 
-    private MainDeck mainDeck;
-    private Deck deck;
+    private MainDeck mainDeck;  //Opened cards
+    private Deck deck;          //Closed cards
 
     public Table()
     {
@@ -23,20 +23,33 @@ public class Table implements Mediator
         this.playerLimit = playerLimit;
     }
 
-    public boolean addPlayer(Player player)
+    public void addPlayer(Player player) throws Exception
     {
         if (players.size() != playerLimit && !players.contains(player))
         {
             players.add(player);
             player.setMediator(this);
-            return true;
+            return;
         }
-        return false;
+        throw new Exception("Attempt to add more players than possible or dup player");
     }
 
-    public boolean removePlayer(Player player)
+    public void addPlayers(ArrayList<Player> players) throws Exception
     {
-        return players.remove(player);
+        if (this.players.size() + players.size() > playerLimit)
+        {
+            throw new Exception("Attempt to add more players than possible");
+        }
+
+        for (Player player: players)
+        {
+            addPlayer(player);
+        }
+    }
+
+    public void removePlayer(Player player) // TODO: remove safely or not
+    {
+        players.remove(player);
     }
 
     public ArrayList<Player> getPlayers()
@@ -55,13 +68,18 @@ public class Table implements Mediator
     }
 
     @Override
-    public void interact(Mediator mediator, ArrayList<Card> cards)
+    public void interact(TableComponent tableComponent, ArrayList<Card> cards) // TODO
     {
 
     }
 
-    public void initiate()
+    public void initiate() // TODO
     {
 
+    }
+
+    public boolean isEmpty()
+    {
+        return players.isEmpty();
     }
 }

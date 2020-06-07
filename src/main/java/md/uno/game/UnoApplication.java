@@ -12,12 +12,16 @@ public class UnoApplication
         SpringApplication.run(UnoApplication.class, args);
     }
 
-    //Singleton для памяти
-    //AbstractFactory для семейств карт, но это не точно
-    //ObjectPool для выделения столов
-    //Decorator для свойств карт
-    //Facade как интерфейс для сайта
-    //Mediator для общения на столе
-    //Chain of responsibility для ответов
-    //Strategy для махинаций с картами???
+    /*
+    Singleton для памяти
+    ObjectPool для выделения столов
+    Builder для создания разных типов колод
+
+    Decorator для свойств карт
+    Facade как интерфейс для сайта
+
+    Mediator для общения на столе
+    Chain of responsibility для ответов
+    Strategy для махинаций с картами???
+    */
 }

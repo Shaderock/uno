@@ -9,6 +9,8 @@ enum State
     afk
 }
 
+// TODO: Разобраться со статусами (скорее всего - удалить)
+
 public class Player extends Deck
 {
     private final String login;

@@ -5,7 +5,9 @@
     </head>
     <body>
         <form action="/login" method="get">
-            <label for="login">Login</label>
+            <label for="login">Login
+                ${authAttempt}
+            </label>
             <input type="text" name="login">
             <input type="submit">
         </form>
