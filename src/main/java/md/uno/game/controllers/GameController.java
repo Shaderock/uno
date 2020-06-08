@@ -1,12 +1,14 @@
 package md.uno.game.controllers;
 
-import md.uno.game.Memory;
-import md.uno.game.TableHandler;
+import md.uno.game.models.cards.CardColor;
+import md.uno.game.utils.Memory;
+import md.uno.game.utils.TableHandler;
 import md.uno.game.models.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GameController
@@ -53,7 +55,68 @@ public class GameController
 
         modelMap.addAttribute("login", player.getLogin());
 
-        return "game";
+        return "game";  // TODO: generate page
+    }
+
+    @GetMapping(value = "/game/release")
+    public String actionRelease(@CookieValue(name = "JSESSIONID", required = false) String jsession,
+                                @RequestParam(name = "ordernumber") Integer orderNumber)
+    {
+        Memory memory = Memory.getInstance();
+        Player player = memory.findPlayerByJsession(jsession);
+        if (player == null)
+        {
+            return "redirect:/";
+        }
+
+        TableHandler.playerReleaseCard(player, orderNumber);
+        return "redirect:/game";
+    }
+
+    @GetMapping(value = "/game/take")
+    public String actionTake(@CookieValue(name = "JSESSIONID", required = false) String jsession)
+    {
+        Memory memory = Memory.getInstance();
+        Player player = memory.findPlayerByJsession(jsession);
+        if (player == null)
+        {
+            return "redirect:/";
+        }
+
+        TableHandler.playerTakeCard(player);
+
+        return "redirect:/game";
+    }
+
+    @GetMapping(value = "/game/color")
+    public String actionColor(@CookieValue(name = "JSESSIONID", required = false) String jsession,
+                              @RequestParam(name = "color") CardColor cardColor)
+    {
+        Memory memory = Memory.getInstance();
+        Player player = memory.findPlayerByJsession(jsession);
+        if (player == null)
+        {
+            return "redirect:/";
+        }
+
+        TableHandler.changeTopCardColor(player, cardColor);
+
+        return "redirect:/game";
+    }
+
+    @GetMapping(value = "/game/pass")
+    public String actionPass(@CookieValue(name = "JSESSIONID", required = false) String jsession)
+    {
+        Memory memory = Memory.getInstance();
+        Player player = memory.findPlayerByJsession(jsession);
+        if (player == null)
+        {
+            return "redirect:/";
+        }
+
+        TableHandler.playerPass(player);
+
+        return "redirect:/game";
     }
 
     @GetMapping(value = "/endgame")

@@ -2,15 +2,10 @@ package md.uno.game.models;
 
 public abstract class TableComponent
 {
-    private Mediator mediator;
+    protected IMediator iMediator;
 
-    public Mediator getMediator()
+    public void setIMediator(IMediator IMediator)
     {
-        return mediator;
-    }
-
-    public void setMediator(Mediator mediator)
-    {
-        this.mediator = mediator;
+        this.iMediator = IMediator;
     }
 }

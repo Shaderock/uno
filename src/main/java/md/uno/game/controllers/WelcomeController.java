@@ -1,6 +1,6 @@
 package md.uno.game.controllers;
 
-import md.uno.game.Memory;
+import md.uno.game.utils.Memory;
 import md.uno.game.models.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

@@ -1,10 +1,8 @@
 package md.uno.game.models;
 
-import md.uno.game.GameLogic;
-import md.uno.game.models.Cards.Card;
+import md.uno.game.models.cards.Card;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class MainDeck extends Deck
@@ -27,15 +25,6 @@ public class MainDeck extends Deck
     public Card getTop()
     {
         return cards.get(cards.size() - 1);
-    }
-
-    @Override
-    public void put(Card card)
-    {
-        if (GameLogic.isPutable(this.getTop(), card))
-        {
-            cards.add(card);
-        }
     }
 
     public ArrayList<Card> releaseForShuffle()

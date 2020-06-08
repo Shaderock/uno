@@ -1,7 +1,7 @@
 package md.uno.game.controllers;
 
-import md.uno.game.Memory;
-import md.uno.game.TableHandler;
+import md.uno.game.utils.Memory;
+import md.uno.game.utils.TableHandler;
 import md.uno.game.models.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;

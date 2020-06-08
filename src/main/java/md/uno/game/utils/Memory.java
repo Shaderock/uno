@@ -1,4 +1,4 @@
-package md.uno.game;
+package md.uno.game.utils;
 
 import md.uno.game.models.Player;
 import md.uno.game.models.Table;
@@ -8,10 +8,6 @@ import java.util.ArrayList;
 public class Memory
 {
     private static final Memory instance = new Memory();
-
-    private Memory()
-    {
-    }
 
     public static Memory getInstance()
     {
@@ -96,6 +92,18 @@ public class Memory
         return null;
     }
 
+    public Table findTableByPlayer(Player player)
+    {
+        for (Table table : tables)
+        {
+            if (table.getPlayers().contains(player))
+            {
+                return table;
+            }
+        }
+        return null;
+    }
+
     private Table addTable()
     {
         Table table = new Table(getMaxPLayers());
@@ -150,7 +158,7 @@ public class Memory
 
     public void createNewTableFromReadyToPlay(int playerNumber) throws Exception // Ready -> Table
     {
-        ArrayList<Player> transferPlayers = new ArrayList<Player>(readyToPlay.subList(0, playerNumber));
+        ArrayList<Player> transferPlayers = new ArrayList<>(readyToPlay.subList(0, playerNumber));
         for (int i = 0; (i < playerNumber) && (!readyToPlay.isEmpty()); i++)
         {
             readyToPlay.remove(0);
@@ -177,8 +185,13 @@ public class Memory
             if (table.getPlayers().contains(player))
             {
                 table.removePlayer(player);
-                if (table.isEmpty())
+                if (table.checkForEndGame())
                 {
+                    for (Player tablePlayer : table.getPlayers())
+                    {
+                        table.removePlayer(tablePlayer);
+                        lobby.add(tablePlayer);
+                    }
                     removeTable(table);
                 }
                 lobby.add(player);
@@ -208,8 +221,13 @@ public class Memory
                 if (table.getPlayers().contains(player))
                 {
                     table.removePlayer(player);
-                    if (table.isEmpty())
+                    if (table.checkForEndGame())
                     {
+                        for (Player tablePlayer : table.getPlayers())
+                        {
+                            table.removePlayer(tablePlayer);
+                            lobby.add(tablePlayer);
+                        }
                         removeTable(table);
                     }
                     return;

@@ -1,8 +1,7 @@
 package md.uno.game.models;
 
-import md.uno.game.models.Cards.Card;
+import md.uno.game.models.cards.Card;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,10 +24,7 @@ public class Deck extends TableComponent
     public Deck(ArrayList<Card> cards)
     {
         this();
-        for (Card card : cards)
-        {
-            this.cards.addAll(cards);
-        }
+        this.cards.addAll(cards);
     }
 
     public void shuffle()
@@ -38,19 +34,22 @@ public class Deck extends TableComponent
 
     public void put(Card card)
     {
-        ArrayList<Card> cards = new ArrayList<>();
         cards.add(card);
-        this.put(cards);
     }
 
     public void put(ArrayList<Card> cards)
     {
-        for (Card card : cards)
+        this.cards.addAll(cards);
+    }
+
+    public Card getCard(int orderNumber)
+    {
+        try
         {
-            if (!this.cards.contains(card))
-            {
-                this.cards.add(card);
-            }
+            return this.cards.get(orderNumber);
+        } catch (IndexOutOfBoundsException e)
+        {
+            return null;
         }
     }
 
@@ -92,5 +91,20 @@ public class Deck extends TableComponent
             this.cards.remove((int) integer);
         }
         return cards;
+    }
+
+    public void shiftCard(Deck deck, int orderNumber)
+    {
+        iMediator.shiftCard(this, deck, orderNumber);
+    }
+
+    public void release(Card card)
+    {
+        cards.remove(card);
+    }
+
+    public int getSize()
+    {
+        return cards.size();
     }
 }
