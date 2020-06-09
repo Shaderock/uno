@@ -4,8 +4,7 @@ import md.uno.game.models.ITable;
 import md.uno.game.models.cards.Card;
 import md.uno.game.models.cards.CardColor;
 
-public abstract class SpecialCard extends Card
-    implements ISpecialCard
+public abstract class SpecialCard extends Card implements ISpecialCard
 {
     private final Card card;
 
@@ -33,4 +32,8 @@ public abstract class SpecialCard extends Card
             ((ISpecialCard) card).execute(iTable);
         }
     }
+
+	public void execute(ITable iTable){
+
+	}
 }

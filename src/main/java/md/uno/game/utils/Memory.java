@@ -7,12 +7,22 @@ import java.util.ArrayList;
 
 public class Memory
 {
-    private static final Memory instance = new Memory();
+    private static Memory instance;
 
-    public static Memory getInstance()
+    public Memory() throws Exception
     {
+    }
+
+    public static Memory getInstance() throws Exception
+    {
+        if (instance == null)
+        {
+            instance = new Memory();
+        }
         return instance;
     }
+
+    private final TablePool tablePool = TablePool.getInstance(getMaxPLayers());
 
     private final ArrayList<Table> tables = new ArrayList<>();
 
@@ -113,12 +123,19 @@ public class Memory
 
     private Table addTable(ArrayList<Player> players) throws Exception
     {
-        Table table = addTable();
-//        for (Player player : players)
-//        {
-//            table.addPlayer(player);
-//        }
-        table.addPlayers(players);
+//        Table table = addTable();
+
+        Table table = tablePool.acquireTable();
+
+        if (table != null)
+        {
+//            for (Player player : players)
+//            {
+//                table.addPlayer(player);
+//            }
+
+            table.addPlayers(players);
+        }
         return table;
     }
 
@@ -156,7 +173,7 @@ public class Memory
         }
     }
 
-    public void createNewTableFromReadyToPlay(int playerNumber) throws Exception // Ready -> Table
+    public boolean createNewTableFromReadyToPlay(int playerNumber) throws Exception // Ready -> Table
     {
         ArrayList<Player> transferPlayers = new ArrayList<>(readyToPlay.subList(0, playerNumber));
         for (int i = 0; (i < playerNumber) && (!readyToPlay.isEmpty()); i++)
@@ -164,7 +181,8 @@ public class Memory
             readyToPlay.remove(0);
         }
 
-        addTable(transferPlayers);
+        Table table = addTable(transferPlayers);
+        return table != null;
     }
 
     public void removePlayerToLobby(Player player)              // (Ready || Table) -> Lobby

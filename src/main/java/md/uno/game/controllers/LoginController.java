@@ -13,7 +13,7 @@ public class LoginController
 {
     @GetMapping(value = "/login")
     public String loginRedirect(@CookieValue(name = "JSESSIONID", required = false) String jsession,
-                                @RequestParam(name = "login") String login)
+                                @RequestParam(name = "login") String login) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -33,7 +33,7 @@ public class LoginController
     }
 
     @GetMapping(value = "/logout")
-    public String logoutRedirect(@CookieValue(name = "JSESSIONID", required = false) String jsession)
+    public String logoutRedirect(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);

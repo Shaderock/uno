@@ -1,9 +1,9 @@
 package md.uno.game.controllers;
 
+import md.uno.game.models.Player;
 import md.uno.game.models.cards.CardColor;
 import md.uno.game.utils.Memory;
 import md.uno.game.utils.TableHandler;
-import md.uno.game.models.Player;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -29,17 +29,19 @@ public class GameController
             memory.movePlayerToReadyToPlay(player);
         }
 
-        if (memory.isPlayerInGame(player) || TableHandler.organizeNewTables(player))
+        if (memory.isPlayerInGame(player))
         {
             return "redirect:/game";
         }
+
+        TableHandler.organizeNewTables(player);
 
         return "startgame";
     }
 
     @GetMapping(value = "/game")
     public String gamePage(@CookieValue(name = "JSESSIONID", required = false) String jsession,
-                           ModelMap modelMap)
+                           ModelMap modelMap) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -60,7 +62,7 @@ public class GameController
 
     @GetMapping(value = "/game/release")
     public String actionRelease(@CookieValue(name = "JSESSIONID", required = false) String jsession,
-                                @RequestParam(name = "ordernumber") Integer orderNumber)
+                                @RequestParam(name = "ordernumber") Integer orderNumber) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -74,7 +76,7 @@ public class GameController
     }
 
     @GetMapping(value = "/game/take")
-    public String actionTake(@CookieValue(name = "JSESSIONID", required = false) String jsession)
+    public String actionTake(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -90,7 +92,7 @@ public class GameController
 
     @GetMapping(value = "/game/color")
     public String actionColor(@CookieValue(name = "JSESSIONID", required = false) String jsession,
-                              @RequestParam(name = "color") CardColor cardColor)
+                              @RequestParam(name = "color") CardColor cardColor) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -105,7 +107,7 @@ public class GameController
     }
 
     @GetMapping(value = "/game/pass")
-    public String actionPass(@CookieValue(name = "JSESSIONID", required = false) String jsession)
+    public String actionPass(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -120,7 +122,7 @@ public class GameController
     }
 
     @GetMapping(value = "/endgame")
-    public String endGame(@CookieValue(name = "JSESSIONID", required = false) String jsession)
+    public String endGame(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);

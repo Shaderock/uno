@@ -12,7 +12,7 @@ public class LobbyController
 {
     @GetMapping(value = "/lobby")
     public String lobbyPage(@CookieValue(name = "JSESSIONID", required = false) String jsession,
-                            ModelMap modelMap)
+                            ModelMap modelMap) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);

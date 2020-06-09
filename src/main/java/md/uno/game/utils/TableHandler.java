@@ -8,7 +8,18 @@ import md.uno.game.models.cards.special.SpecialCard;
 
 public class TableHandler
 {
-    private static final Memory memory = Memory.getInstance();
+    private static Memory memory;
+
+    static
+    {
+        try
+        {
+            memory = Memory.getInstance();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     //Can fail only if login is already used
     public static boolean addPlayerToLobby(Player newPlayer)
@@ -23,30 +34,34 @@ public class TableHandler
         return true;
     }
 
-    public static boolean organizeNewTables(Player player) throws Exception
+    public static void organizeNewTables(Player player) throws Exception
     {
         int readyToPlaySize = memory.getReadyToPlay().size();
         int minPlayers = memory.getMinPLayers();
         int maxPlayers = memory.getMaxPLayers();
         if (readyToPlaySize < minPlayers)
         {
-            return false;
+            return;
         }
 
         while (readyToPlaySize >= minPlayers)
         {
             if (readyToPlaySize > maxPlayers)
             {
-                memory.createNewTableFromReadyToPlay(maxPlayers);
+                if (!memory.createNewTableFromReadyToPlay(maxPlayers))
+                {
+                    return;
+                }
                 readyToPlaySize -= maxPlayers;
             } else
             {
-                memory.createNewTableFromReadyToPlay(readyToPlaySize);
+                if (memory.createNewTableFromReadyToPlay(readyToPlaySize))
+                {
+                    return;
+                }
                 readyToPlaySize = 0;
             }
         }
-
-        return memory.isPlayerInGame(player);
     }
 
     public static void playerReleaseCard(Player player, Integer orderNumber)
@@ -129,8 +144,7 @@ public class TableHandler
         try
         {
             table.getDeck().shiftCard(player, table.getDeck().getSize() - 1);
-        }
-        catch (IndexOutOfBoundsException e)
+        } catch (IndexOutOfBoundsException e)
         {
             for (int i = 0; i < table.getMainDeck().getSize() - 1; i++)
             {

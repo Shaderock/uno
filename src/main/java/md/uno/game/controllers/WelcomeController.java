@@ -14,7 +14,7 @@ public class WelcomeController
     @GetMapping(value = "/")
     public String welcomePage(@CookieValue(name = "JSESSIONID", required = false) String jsession,
                               @RequestParam(name = "authAttempt", required = false) boolean authAttempt,
-                              ModelMap modelMap)
+                              ModelMap modelMap) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
