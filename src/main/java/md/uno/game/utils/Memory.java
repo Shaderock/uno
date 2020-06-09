@@ -135,6 +135,7 @@ public class Memory
 //            }
 
             table.addPlayers(players);
+            table.initiate();
         }
         return table;
     }

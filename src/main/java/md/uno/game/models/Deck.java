@@ -107,4 +107,9 @@ public class Deck extends TableComponent
     {
         return cards.size();
     }
+
+    public void clear()
+    {
+        cards.clear();
+    }
 }

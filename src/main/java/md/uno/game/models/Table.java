@@ -117,9 +117,21 @@ public class Table implements IMediator, ITable
 
     public void initiate()
     {
+        anull();
         initiateDeck();
         giveStartCards();
         putFirstCardToMainDeck();
+    }
+
+    private void anull()
+    {
+        mainDeck.clear();
+        deck.clear();
+
+        playerThatMoves = 0;
+        direction = true;
+        isNextPlayerSkipping = false;
+        changeColor = false;
     }
 
     private void putFirstCardToMainDeck()

@@ -13,14 +13,12 @@ public class UnoApplication
 
 /*
     + Singleton для памяти
-    - ObjectPool для выделения столов
-    ~ Builder для создания разных типов колод
+    + ObjectPool для выделения столов
 
     + Facade как интерфейс для сайта
     + Decorator для свойств карт
 
     + Strategy для махинаций с картами
     + Mediator для общения на столе
-    ~ Chain of responsibility для ответов
 */
 }
