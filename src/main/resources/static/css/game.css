@@ -1,0 +1,626 @@
+html,body,game {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Raleway', sans-serif;
+  perspective: 100em;
+}
+
+.game-field {
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-gap: 0.5em;
+  grid-template-columns: 12em 24em 12em;
+  grid-template-rows: 12em 24em 12em;
+}
+.game-field.perspective {
+	transform-origin: center 4em;
+	transform: rotateX(30deg);
+}
+
+.card {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.8em;
+  padding: 0.3em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: 200ms;
+  position: relative;
+	transform-origin: left bottom;
+}
+.card .bckg {
+  width: 5em;
+  height: 7.58em;
+  border-radius: 0.5em;
+  overflow: hidden;
+  position: relative;
+	
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-color: white;
+}
+/*
+.card .bckg::before {
+  content: '';
+  width: 5em;
+  height: 6.5em;
+  background-color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(10deg);
+  transform-origin: center center;
+  border-radius: 90% 40%;
+}
+.card .center-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+}
+.card.red{
+  color: #dc251c;
+}
+.card.red .bckg {
+  background-color: #dc251c;
+}
+.card.yellow {
+  color: #fcf604;
+}
+.card.yellow .bckg {
+  background-color: #fcf604;
+}
+.card.blue {
+  color: #0493de;
+}
+.card.blue .bckg {
+  background-color: #0493de;
+}
+.card.green {
+  color: #018d41;
+}
+.card.green .bckg {
+  background-color: #018d41;
+}
+.card.black {
+  color: #1f1b18;
+}
+.card.black .bckg {
+  background-color: #1f1b18;
+}
+*/
+.card.turned:hover {
+  cursor: default;
+}
+/*
+.card.turned .bckg {
+  background-color: #1f1b18;
+}
+.card.turned .bckg::before {
+  background-color: #dc251c;
+}
+*/
+
+.game-field #piles_area {
+  position: relative;
+  border-radius: 4em;
+  transition: 200ms;
+	z-index: -7;
+}
+.game-field.yellow #piles_area {
+  background-color: rgba(216,218,13,0.4);
+}
+.game-field.blue #piles_area {
+  background-color: rgba(11,131,191,0.4);
+}
+.game-field.red #piles_area {
+  background-color: rgba(192,40,39,0.4);
+}
+.game-field.green #piles_area {
+  background-color: rgba(6,128,41,0.4);
+}
+
+#piles_area .pile_shadow {
+  position: absolute;
+}
+#piles_area .pile_shadow:nth-child(1) {
+	z-index: -2;
+}
+#piles_area .pile_shadow:nth-child(2) {
+	z-index: -3;
+}
+#piles_area .pile_shadow:nth-child(3) {
+	z-index: -4;
+}
+#piles_area .pile_shadow:nth-child(4) {
+	z-index: -5;
+}
+#piles_area .pile_shadow:nth-child(5) {
+	z-index: -6;
+}
+
+#draw_pile {
+  position: absolute;
+  left: 4.5em;
+  top: 7em;
+}
+#draw_pile .card.top-card{
+  position: absolute;
+}
+#draw_pile .card.pile:hover {
+  transform: none;
+}
+#draw_pile .card.top-card {
+  z-index: 100;
+  box-shadow: none;
+}
+#draw_pile.can_draw .card.top-card:hover {
+  box-shadow: 0px 4px rgba(0,0,0,0.16);
+  cursor: pointer;
+  transform: translateY(1em);
+}
+
+#draw_pile .pile_shadow {
+  position: absolute;
+}
+#draw_pile .pile_shadow:nth-child(1) {
+  box-shadow: 0px 2px #fff, 0px 4px rgba(0,0,0,0.16);
+}
+#draw_pile .pile_shadow:nth-child(2) {
+  box-shadow: 0px 6px #fff, 0px 8px rgba(0,0,0,0.16);
+}
+#draw_pile .pile_shadow:nth-child(3) {
+  box-shadow: 0px 10px #fff, 0px 12px rgba(0,0,0,0.16);
+}
+#draw_pile .pile_shadow:nth-child(4) {
+  box-shadow: 0px 14px #fff, 0px 16px rgba(0,0,0,0.16);
+}
+#draw_pile .pile_shadow:nth-child(5) {
+	box-shadow: 0px 18px #fff, 0px 20px rgba(0,0,0,0.16);
+}
+
+#discard_pile {
+  position: absolute;
+  left: 13em;
+  top: 7em;
+}
+#discard_pile .card.top-card{
+  position: absolute;
+}
+#discard_pile .card.pile:hover {
+  transform: none;
+}
+#discard_pile .card.top-card {
+  z-index: 100;
+  box-shadow: none;
+}
+
+#discard_pile .card{
+	transform-origin: center;
+}
+#discard_pile .card.rand_1 {
+	transform: rotate(-17deg);
+}
+#discard_pile .card.rand_2 {
+	transform: rotate(-11deg);
+}
+#discard_pile .card.rand_3 {
+	transform: rotate(-5deg);
+}
+#discard_pile .card.rand_4 {
+	transform: rotate(0);
+}
+#discard_pile .card.rand_5 {
+	transform: rotate(2deg);
+}
+#discard_pile .card.rand_6 {
+	transform: rotate(5deg);
+}
+#discard_pile .card.rand_7 {
+	transform: rotate(11deg);
+}
+#discard_pile .card.rand_8 {
+	transform: rotate(16deg);
+}
+
+#piles_area {
+  grid-area: 2/2;
+}
+#player {
+  grid-area: 3/2;
+}
+#player_left {
+  grid-area: 2/1;
+}
+#player_top {
+  grid-area: 1/2;
+}
+#player_right {
+  grid-area: 2/3;
+}
+
+.player_name {
+	margin: 0 0 -1.3em 2.2em;
+	width: max-content;
+	padding: 0 0.2em;
+}
+#player .player_name {
+	margin-bottom: 1em;
+}
+.player_turn .player_name {
+	background-color: lightgreen;
+	border-radius: 0.5em;
+}
+
+.player_hand {
+  position: relative;
+}
+.player_hand .hand_row{
+	position: absolute;
+	transition-duration: 200ms;
+}
+.player_hand .hand_row:nth-child(2){
+	top: 3.5em;
+}
+.player_hand .hand_row:nth-child(3){
+	top: 7em;
+}
+.player_hand .hand_row:nth-child(4){
+	top: 10.5em;
+}
+.player_hand .hand_row:nth-child(5){
+	top: 14em;
+}
+
+.player_hand .card {
+  position: absolute;
+}
+.player_hand .card:nth-child(1) {
+  left: 2.2em;
+}
+.player_hand .card:nth-child(2) {
+  left: 4.4em;
+}
+.player_hand .card:nth-child(3) {
+  left: 6.6em;
+}
+.player_hand .card:nth-child(4) {
+  left: 8.8em;
+}
+.player_hand .card:nth-child(5) {
+  left: 11em;
+}
+.player_hand .card:nth-child(6) {
+  left: 13.2em;
+}
+.player_hand .card:nth-child(7) {
+	left: 15.4em;
+}
+.player_hand .card:nth-child(8) {
+	left: 17.6em;
+}
+.player_hand .card:nth-child(9) {
+	left: 19.8em;
+}
+.player_hand .card:nth-child(10) {
+	left: 22em;
+}
+
+#player.player_turn .player_hand .card {
+  cursor: pointer;
+}
+#player .player_hand .card:hover {
+  transform-origin: left bottom;
+  transform: rotate(-10deg) translateY(-0.5em);
+}
+#player .player_hand .card:hover~ .card {
+  transform: translateX(2em);
+}
+#player .player_hand .hand_row:hover~ .hand_row {
+  transform: translateY(1em);
+}
+
+#player_left .player_hand {
+  transform-origin: left bottom;
+  transform: rotate(90deg) translateY(-10em);
+}
+#player_left .player_hand .card {
+	box-shadow: 1px 0 3px rgba(0,0,0,0.12), 1px 0 2px rgba(0,0,0,0.24);
+}
+
+#player_top .player_hand {
+  transform: rotate(180deg) translateY(-10em);
+}
+#player_top .player_hand .card {
+	box-shadow: 0 -1px 3px rgba(0,0,0,0.12), 0 -1px 2px rgba(0,0,0,0.24);
+}
+
+#player_right .player_hand {
+  transform-origin: left bottom;
+  transform: rotate(-90deg) translate(-24em, 1em);
+}
+#player_right .player_hand .card {
+	box-shadow: -1px 0 3px rgba(0,0,0,0.12), -1px 0 2px rgba(0,0,0,0.24);
+}
+
+/*Concrete cards*/
+.card.turned .bckg{
+	background-image: url(/static/images/cards/turned.jpg);
+}
+#b0{
+	background-image: url(/static/images/cards/blue/0.jpg);
+}
+#b1{
+	background-image: url(/static/images/cards/blue/1.jpg);
+}
+#b2{
+	background-image: url(/static/images/cards/blue/2.jpg);
+}
+#b3{
+	background-image: url(/static/images/cards/blue/3.jpg);
+}
+#b4{
+	background-image: url(/static/images/cards/blue/4.jpg);
+}
+#b5{
+	background-image: url(/static/images/cards/blue/5.jpg);
+}
+#b6{
+	background-image: url(/static/images/cards/blue/6.jpg);
+}
+#b7{
+	background-image: url(/static/images/cards/blue/7.jpg);
+}
+#b8{
+	background-image: url(/static/images/cards/blue/8.jpg);
+}
+#b9{
+	background-image: url(/static/images/cards/blue/9.jpg);
+}
+#bdraw2{
+	background-image: url(/static/images/cards/blue/draw2.jpg);
+}
+#breverse{
+	background-image: url(/static/images/cards/blue/reverse.jpg);
+}
+#bskip{
+	background-image: url(/static/images/cards/blue/skip.jpg);
+}
+#g0{
+	background-image: url(/static/images/cards/green/0.jpg);
+}
+#g1{
+	background-image: url(/static/images/cards/green/1.jpg);
+}
+#g2{
+	background-image: url(/static/images/cards/green/2.jpg);
+}
+#g3{
+	background-image: url(/static/images/cards/green/3.jpg);
+}
+#g4{
+	background-image: url(/static/images/cards/green/4.jpg);
+}
+#g5{
+	background-image: url(/static/images/cards/green/5.jpg);
+}
+#g6{
+	background-image: url(/static/images/cards/green/6.jpg);
+}
+#g7{
+	background-image: url(/static/images/cards/green/7.jpg);
+}
+#g8{
+	background-image: url(/static/images/cards/green/8.jpg);
+}
+#g9{
+	background-image: url(/static/images/cards/green/9.jpg);
+}
+#gdraw2{
+	background-image: url(/static/images/cards/green/draw2.jpg);
+}
+#greverse{
+	background-image: url(/static/images/cards/green/reverse.jpg);
+}
+#gskip{
+	background-image: url(/static/images/cards/green/skip.jpg);
+}
+#r0{
+	background-image: url(/static/images/cards/red/0.jpg);
+}
+#r1{
+	background-image: url(/static/images/cards/red/1.jpg);
+}
+#r2{
+	background-image: url(/static/images/cards/red/2.jpg);
+}
+#r3{
+	background-image: url(/static/images/cards/red/3.jpg);
+}
+#r4{
+	background-image: url(/static/images/cards/red/4.jpg);
+}
+#r5{
+	background-image: url(/static/images/cards/red/5.jpg);
+}
+#r6{
+	background-image: url(/static/images/cards/red/6.jpg);
+}
+#r7{
+	background-image: url(/static/images/cards/red/7.jpg);
+}
+#r8{
+	background-image: url(/static/images/cards/red/8.jpg);
+}
+#r9{
+	background-image: url(/static/images/cards/red/9.jpg);
+}
+#rdraw2{
+	background-image: url(/static/images/cards/red/draw2.jpg);
+}
+#rreverse{
+	background-image: url(/static/images/cards/red/reverse.jpg);
+}
+#rskip{
+	background-image: url(/static/images/cards/red/skip.jpg);
+}
+#y0{
+	background-image: url(/static/images/cards/yellow/0.jpg);
+}
+#y1{
+	background-image: url(/static/images/cards/yellow/1.jpg);
+}
+#y2{
+	background-image: url(/static/images/cards/yellow/2.jpg);
+}
+#y3{
+	background-image: url(/static/images/cards/yellow/3.jpg);
+}
+#y4{
+	background-image: url(/static/images/cards/yellow/4.jpg);
+}
+#y5{
+	background-image: url(/static/images/cards/yellow/5.jpg);
+}
+#y6{
+	background-image: url(/static/images/cards/yellow/6.jpg);
+}
+#y7{
+	background-image: url(/static/images/cards/yellow/7.jpg);
+}
+#y8{
+	background-image: url(/static/images/cards/yellow/8.jpg);
+}
+#y9{
+	background-image: url(/static/images/cards/yellow/9.jpg);
+}
+#ydraw2{
+	background-image: url(/static/images/cards/yellow/draw2.jpg);
+}
+#yreverse{
+	background-image: url(/static/images/cards/yellow/reverse.jpg);
+}
+#yskip{
+	background-image: url(/static/images/cards/yellow/skip.jpg);
+}
+#draw4{
+	background-image: url(/static/images/cards/black/draw4.jpg);
+}
+#wild{
+	background-image: url(/static/images/cards/black/wild.jpg);
+}
+
+#dialog_background{
+	background-color: rgba(0, 0, 0, 0.4);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(3px);
+}
+#dialog_container{
+	margin: 15% auto;
+	background-color: white;
+	border-radius: 15px;
+	width: 40%;
+	height: 32%;
+	box-shadow: 0 0.5em 30px rgba(0, 0, 0, 1);
+	text-align: center;
+}
+#choose_title{
+	font-size: 2em;
+}
+#colors_list{
+	display: flex;
+	position: relative;
+	width: 90%;
+	margin: auto;
+}
+#colors_list .card{
+	margin: 3% auto;
+	cursor: pointer;
+	transform-origin: center;
+}
+#red .bckg{
+	background-image: url(/static/images/cards/red/wild_red.jpg);
+}
+#blue .bckg{
+	background-image: url(/static/images/cards/blue/wild_blue.jpg);
+}
+#yellow .bckg{
+	background-image: url(/static/images/cards/yellow/wild_yellow.jpg);
+}
+#green .bckg{
+	background-image: url(/static/images/cards/green/wild_green.jpg);
+}
+
+#red:hover{
+	transform: scale(1.15);
+	box-shadow: 0 0 0.7em rgba(192,40,39, 0.8);
+}
+#blue:hover {
+	transform: scale(1.15);
+	box-shadow: 0 0 0.7em rgba(11,131,191, 0.8);
+}
+#yellow:hover {
+	transform: scale(1.15);
+	box-shadow: 0 0 0.7em rgba(216,218,13, 0.8);
+}
+#green:hover {
+	transform: scale(1.15);
+	box-shadow: 0 0 0.7em rgba(6,128,41, 0.8);
+}
+
+#controls{
+	z-index: 2;
+	grid-area: 3/3;
+	margin-left: 3em;
+	width: max-content;
+	display: inline-block;
+}
+#controls div{
+	width: auto;
+	padding: 0.5em;
+	cursor: pointer;
+	margin-bottom: 1em;
+	border-radius: 0.5em;
+	transition-duration: 100ms;
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+#controls div:hover{
+	box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+}
+#controls img{
+	vertical-align: middle;
+	height: 2em;
+	width: 2em;
+}
+
+#original{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 100;
+	border-top: 1px solid gray;
+	border-right: 1px solid gray;
+	border-top-right-radius: 0.5em;
+	box-shadow: 1px -1px 0.4em gray;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+#original p{
+	margin: 0.5em;
+	font-size: 2vh;
+}
+#original a{
+	font-style: italic;
+	color: black;
+	text-decoration: none;
+}

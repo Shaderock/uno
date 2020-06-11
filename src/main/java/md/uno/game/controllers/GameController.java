@@ -106,8 +106,8 @@ public class GameController
         return "redirect:/game";
     }
 
-    @GetMapping(value = "/game/pass")
-    public String actionPass(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
+    @GetMapping(value = "/game/skip")
+    public String actionSkip(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
     {
         Memory memory = Memory.getInstance();
         Player player = memory.findPlayerByJsession(jsession);
@@ -116,7 +116,7 @@ public class GameController
             return "redirect:/";
         }
 
-        TableHandler.playerPass(player);
+        TableHandler.playerSkip(player);
 
         return "redirect:/game";
     }

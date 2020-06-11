@@ -157,7 +157,7 @@ public class TableHandler
         player.canTakeCard = false;
     }
 
-    public static void playerPass(Player player)
+    public static void playerSkip(Player player)
     {
         if (player.canTakeCard)
         {

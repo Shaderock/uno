@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html;charset=utf-8"%>
 <html>
     <head>
-        <title>Welcome to the lobby</title>
+        <title>Please, wait</title>
+        <link rel="shortcut icon" href="/static/images/favicon.png" type="image/png">
         <script>
             document.addEventListener("DOMContentLoaded", function(event) {
               window.setTimeout(window.location.reload.bind(window.location), 5000);
