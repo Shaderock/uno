@@ -98,6 +98,11 @@ public class Table implements IMediator, ITable
         return mainDeck.getTop();
     }
 
+    public int getPlayerThatMoves()
+    {
+        return playerThatMoves;
+    }
+
 //    public int getPlayerLimit()
 //    {
 //        return playerLimit;
@@ -202,8 +207,13 @@ public class Table implements IMediator, ITable
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public int getNextPlayerNumber()
+    {
+        return getNextPlayerNumber(playerThatMoves);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public int getNextPlayerNumber(int playerThatMoves)
     {
         int number = playerThatMoves;
         number += (direction) ? 1 : -1;
@@ -249,6 +259,7 @@ public class Table implements IMediator, ITable
     {
         changeColor = true;
         players.get(playerThatMoves).canTakeCard = false;
+        topCardColor = CardColor.black;
     }
 
     public void nextMove()
@@ -278,7 +289,11 @@ public class Table implements IMediator, ITable
 
     public CardColor getTopCardColor()
     {
-        return topCardColor;
+        if (mainDeck.getTop().getCardColor().equals(CardColor.black))
+        {
+            return topCardColor;
+        }
+        return mainDeck.getTop().getCardColor();
     }
 
     public void setTopCardColor(CardColor topCardColor)

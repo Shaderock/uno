@@ -42,6 +42,11 @@ public class Deck extends TableComponent
         this.cards.addAll(cards);
     }
 
+    public int getCardNumber()
+    {
+        return cards.size();
+    }
+
     public Card getCard(int orderNumber)
     {
         try

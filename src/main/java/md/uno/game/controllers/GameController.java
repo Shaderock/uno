@@ -3,6 +3,7 @@ package md.uno.game.controllers;
 import md.uno.game.models.Player;
 import md.uno.game.models.cards.CardColor;
 import md.uno.game.utils.Memory;
+import md.uno.game.utils.PageHelper;
 import md.uno.game.utils.TableHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -55,9 +56,9 @@ public class GameController
             return "redirect:/lobby";
         }
 
-        modelMap.addAttribute("login", player.getLogin());
+        PageHelper.gamePage(modelMap, memory.findTableByPlayer(player), player);
 
-        return "game";  // TODO: generate page
+        return "game";
     }
 
     @GetMapping(value = "/game/release")
