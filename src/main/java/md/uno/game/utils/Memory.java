@@ -5,7 +5,7 @@ import md.uno.game.models.Table;
 
 import java.util.ArrayList;
 
-public class Memory
+public class Memory // todo remove safely table (acquire), player
 {
     private static Memory instance;
 
@@ -126,6 +126,7 @@ public class Memory
 //        Table table = addTable();
 
         Table table = tablePool.acquireTable();
+        tables.add(table);
 
         if (table != null)
         {

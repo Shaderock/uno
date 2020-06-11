@@ -35,7 +35,7 @@ public class GameController
             return "redirect:/game";
         }
 
-        TableHandler.organizeNewTables(player);
+        TableHandler.organizeNewTables();
 
         return "startgame";
     }
@@ -122,7 +122,7 @@ public class GameController
         return "redirect:/game";
     }
 
-    @GetMapping(value = "/endgame")
+    @GetMapping(value = "/game/endgame")
     public String endGame(@CookieValue(name = "JSESSIONID", required = false) String jsession) throws Exception
     {
         Memory memory = Memory.getInstance();

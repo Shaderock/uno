@@ -32,11 +32,11 @@
                 </div>
                 <div id="controls">
                     <div id="skip" ${canSkip} onclick="skip()">
-                        <p><img id="skip_pic" src="images/skip.jpg">
+                        <p><img id="skip_pic" src="/static/images/skip.jpg">
                         Skip turn</p>
                     </div>
-                    <div id="endgame">
-                        <p><img id="endgame_pic" src="images/exit.jpg">
+                    <div id="endgame"  onclick="endgame()">
+                        <p><img id="endgame_pic" src="/static/images/exit.jpg">
                         End game</p>
                     </div>
                     <br>
@@ -50,13 +50,13 @@
                         <div class="card" id="red" onclick="color('red')">
                             <div class="bckg"></div>
                         </div>
-                        <div class="card" id="blue" onclick="color('blue')>
+                        <div class="card" id="blue" onclick="color('blue')">
                             <div class="bckg"></div>
                         </div>
-                        <div class="card" id="yellow" onclick="color('yellow')>
+                        <div class="card" id="yellow" onclick="color('yellow')">
                             <div class="bckg"></div>
                         </div>
-                        <div class="card" id="green" onclick="color('green')>
+                        <div class="card" id="green" onclick="color('green')">
                             <div class="bckg"></div>
                         </div>
                     </div>

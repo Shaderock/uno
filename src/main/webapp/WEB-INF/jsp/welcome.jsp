@@ -12,7 +12,5 @@
             <input type="text" name="login">
             <input type="submit">
         </form>
-        <br>
-        <img src="static/exit.png">
     </body>
 </html>

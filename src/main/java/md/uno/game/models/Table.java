@@ -34,7 +34,9 @@ public class Table implements IMediator, ITable
     {
 //        this();
         mainDeck = new MainDeck();
+        mainDeck.setIMediator(this);
         deck = new Deck();
+        deck.setIMediator(this);
         players = new ArrayList<>();
         this.playerLimit = playerLimit;
     }
@@ -60,6 +62,7 @@ public class Table implements IMediator, ITable
         for (Player player : players)
         {
             addPlayer(player);
+            player.setIMediator(this);
         }
     }
 
@@ -76,6 +79,7 @@ public class Table implements IMediator, ITable
         }
 
         players.remove(player);
+        player.setIMediator(null);
     }
 
     public ArrayList<Player> getPlayers()
@@ -205,6 +209,8 @@ public class Table implements IMediator, ITable
             deck.put(new PlusTwoSpecialCard(new PlusTwoSpecialCard(new SkipSpecialCard(new WildSpecialCard(CardColor.black)))));
 
         }
+
+        deck.shuffle();
     }
 
     public int getNextPlayerNumber()

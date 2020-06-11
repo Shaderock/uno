@@ -34,7 +34,7 @@ public class TableHandler
         return true;
     }
 
-    public static void organizeNewTables(Player player) throws Exception
+    public static void organizeNewTables() throws Exception
     {
         int readyToPlaySize = memory.getReadyToPlay().size();
         int minPlayers = memory.getMinPLayers();

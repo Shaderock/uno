@@ -19,7 +19,8 @@ public class PageHelper //Helps to construct web-pages
         ArrayList<Player> players = table.getPlayers();
         int playerThatMoves = table.getPlayerThatMoves();
         int playerNumber = players.indexOf(player);
-        modelMap.addAttribute("playerHand", getPlayerHand(player));
+        modelMap.addAttribute("playerHand", getPlayerHand(player,
+                playerNumber == playerThatMoves));
         modelMap.addAttribute("playerTurn", playerThatMoves == playerNumber ? "class=\"player_turn\"" : "");
 
         modelMap.addAttribute("topCardColor", table.getTopCardColor().name());
@@ -70,7 +71,8 @@ public class PageHelper //Helps to construct web-pages
         modelMap.addAttribute("rightPlayerHand", rightPlayerHand);
         modelMap.addAttribute("rightPlayerTurn", rightPlayerTurn);
 
-        modelMap.addAttribute("drawPile", getDrawPile(table).toString());
+        modelMap.addAttribute("drawPile", getDrawPile(table,
+                playerNumber == playerThatMoves && player.canTakeCard).toString());
         modelMap.addAttribute("discardPile", getDiscardPile(table).toString());
     }
 
@@ -92,7 +94,7 @@ public class PageHelper //Helps to construct web-pages
         return discardPile;
     }
 
-    private static StringBuilder getDrawPile(Table table)
+    private static StringBuilder getDrawPile(Table table, boolean canDrawCard)
     {
         StringBuilder drawPile = new StringBuilder();
         for (int cardLeft = 0; cardLeft < 6 && cardLeft < table.getDeck().getSize()-1; cardLeft++)
@@ -102,23 +104,24 @@ public class PageHelper //Helps to construct web-pages
                     "                            <div class=\"bckg\"></div>\n" +
                     "                        </div>");
         }
-        drawPile.append("\n" +
-                "                        <div class=\"card turned top-card\">\n" +
+        drawPile.append(String.format("\n" +
+                "                        <div class=\"card turned top-card\" %s>\n" +
                 "                            <div class=\"bckg\"></div>\n" +
-                "                        </div>");
+                "                        </div>", canDrawCard ? "onclick=\"take()\"": ""));
         return drawPile;
     }
 
     private static String getOtherPlayerHand(Player player)
     {
-        String cardTemplate = "<div class=\"card turned\"\n" +
+        String cardTemplate = "<div class=\"card turned\">\n" +
                 "                                <div class=\"bckg\"></div>\n" +
                 "                            </div>";
         String start = "<p class=\"player_name\">%s</p>\n" +
-                "                    <div class=\"player_hand\">";
+                "                    <div class=\"player_hand\">" +
+                "                       <div class=\"hand_row\">";
         String end = "\n" +
                 "                        </div>\n" +
-                "                    </div>";
+                "                   </div>";
 
         StringBuilder result = new StringBuilder(String.format(start, player.getLogin()));
 
@@ -139,22 +142,23 @@ public class PageHelper //Helps to construct web-pages
         return result.toString();
     }
 
-    private static String getPlayerHand(Player player)
+    private static String getPlayerHand(Player player, boolean isPlayerTurn)
     {
-        String cardTemplate = "<div class=\"card\" onclick=\"release(%d)\">\n" +
+        String cardTemplate = "<div class=\"card\" %s>\n" +    // todo release only your turn
                 "                                <div class=\"bckg\" id=\"%s\"></div>\n" +
                 "                            </div>";
         String start = "<p class=\"player_name\">%s (you)</p>\n" +
-                "                    <div class=\"player_hand\">";
+                "                    <div class=\"player_hand\">\n" +
+                "                       <div class=\"hand_row\">";
         String end = "\n" +
                 "                        </div>\n" +
-                "                    </div>";
+                "                   </div>";
 
         StringBuilder result = new StringBuilder(String.format(start, player.getLogin()));
 
         for (int cardNumber = 0; cardNumber < player.getCardNumber(); cardNumber++)
         {
-            if (cardNumber != 0 && cardNumber % 10 == 0)
+            if (cardNumber != 0 && cardNumber % 9 == 0)
             {
                 result.append("\n" +
                         "                        </div>\n" +
@@ -162,7 +166,9 @@ public class PageHelper //Helps to construct web-pages
             }
             Card card = player.getCard(cardNumber);
 
-            result.append(String.format(cardTemplate, cardNumber, getCardId(card)));
+            result.append(String.format(cardTemplate,
+                    isPlayerTurn? String.format("onclick=\"release(%d)\"", cardNumber) : "",
+                    getCardId(card)));
         }
 
         result.append(end);
@@ -182,22 +188,22 @@ public class PageHelper //Helps to construct web-pages
 
         if (card instanceof NumberCard)
         {
-            return card.getCardColor().name() + ((NumberCard) card).getNumber().toString();
+            return card.getCardColor().name().charAt(0) + ((NumberCard) card).getNumber().toString();
         }
 
         if (card instanceof SkipSpecialCard)
         {
-            return card.getCardColor() + "skip";
+            return card.getCardColor().name().charAt(0) + "skip";
         }
 
         if (card instanceof ReverseSpecialCard)
         {
-            return card.getCardColor() + "reverse";
+            return card.getCardColor().name().charAt(0) + "reverse";
         }
 
         if (card instanceof PlusTwoSpecialCard)
         {
-            return card.getCardColor() + "draw2";
+            return card.getCardColor().name().charAt(0) + "draw2";
         }
 
         return "";
