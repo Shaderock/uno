@@ -126,7 +126,7 @@ body {
   background-color: rgba(6,128,41,0.4);
 }
 .game-field.black #piles_area {
-  background-color: rgba(255,255,255,0.4);
+  background-color: rgba(0,0,0,0.4);
 }
 
 #piles_area .pile_shadow {
@@ -155,13 +155,11 @@ body {
 }
 #draw_pile .card.top-card{
   position: absolute;
+  z-index: 100;
+  box-shadow: none;
 }
 #draw_pile .card.pile:hover {
   transform: none;
-}
-#draw_pile .card.top-card {
-  z-index: 100;
-  box-shadow: none;
 }
 #draw_pile.can_draw .card.top-card:hover {
   box-shadow: 0px 4px rgba(0,0,0,0.16);
@@ -195,18 +193,17 @@ body {
 }
 #discard_pile .card.top-card{
   position: absolute;
+  z-index: 100;
 }
 #discard_pile .card.pile:hover {
   transform: none;
 }
-#discard_pile .card.top-card {
-  z-index: 100;
-  box-shadow: none;
-}
 
 #discard_pile .card{
 	transform-origin: center;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
+
 #discard_pile .card.rand_1 {
 	transform: rotate(-17deg);
 }
@@ -217,7 +214,7 @@ body {
 	transform: rotate(-5deg);
 }
 #discard_pile .card.rand_4 {
-	transform: rotate(0);
+	transform: rotate(-1);
 }
 #discard_pile .card.rand_5 {
 	transform: rotate(2deg);

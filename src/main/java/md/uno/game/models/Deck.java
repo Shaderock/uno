@@ -65,17 +65,17 @@ public class Deck extends TableComponent
 
     public Card release(int orderNumber)
     {
-        try
-        {
+//        try
+//        {
             Card releasedCard = this.cards.get(orderNumber);
             this.cards.remove(orderNumber);
             return releasedCard;
-
-        } catch (IndexOutOfBoundsException e)
-        {
-            System.out.println("Exception!\nTried to release non exist card from deck.");
-            return null;
-        }
+//
+//        } catch (IndexOutOfBoundsException e)
+//        {
+//            System.out.println("Exception!\nTried to release non exist card from deck.");
+//            return null;
+//        }
     }
 
     public ArrayList<Card> releaseSequence(int sequenceSize)

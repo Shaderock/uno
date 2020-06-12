@@ -24,7 +24,11 @@ public class MainDeck extends Deck
 
     public Card getTop()
     {
-        return cards.get(cards.size() - 1);
+        if (cards.size() != 0)
+        {
+            return cards.get(cards.size() - 1);
+        }
+        return null;
     }
 
     public ArrayList<Card> releaseForShuffle()

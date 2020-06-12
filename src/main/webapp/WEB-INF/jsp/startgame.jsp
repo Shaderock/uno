@@ -11,6 +11,6 @@
     </head>
     <body>
         <p>Waiting for other players</p>
-        <a href="/endgame"> <input type="submit" value="Stop"> </a>
+        <a href="/game/endgame"> <input type="submit" value="Stop"> </a>
     </body>
 </html>

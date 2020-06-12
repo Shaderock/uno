@@ -82,12 +82,13 @@ public class TableHandler
         if (GameLogic.isPutable(table.getTopMainDeck(), table.getTopCardColor(), shiftedCard))
         {
             player.canTakeCard = true;
+            player.shiftCard(table.getMainDeck(), orderNumber);
+            table.getMainDeck().getTop().random();
             if (shiftedCard instanceof SpecialCard)
             {
                 ((SpecialCard) shiftedCard).execute(table);
             }
             table.nextMove();
-            player.shiftCard(table.getMainDeck(), orderNumber);
 
             if (checkPlayerWin(player))
             {
@@ -146,11 +147,7 @@ public class TableHandler
             table.getDeck().shiftCard(player, table.getDeck().getSize() - 1);
         } catch (IndexOutOfBoundsException e)
         {
-            for (int i = 0; i < table.getMainDeck().getSize() - 1; i++)
-            {
-                table.getMainDeck().shiftCard(table.getDeck(), 0);
-            }
-            table.getDeck().shuffle();
+            table.reshuffle();
             table.getDeck().shiftCard(player, table.getDeck().getSize() - 1);
         }
 
@@ -159,13 +156,13 @@ public class TableHandler
 
     public static void playerSkip(Player player)
     {
-        if (player.canTakeCard)
+        Table table = memory.findTableByPlayer(player);
+        if (table == null)
         {
             return;
         }
 
-        Table table = memory.findTableByPlayer(player);
-        if (table == null)
+        if (player.canTakeCard && table.getDeck().getSize() != 0)
         {
             return;
         }

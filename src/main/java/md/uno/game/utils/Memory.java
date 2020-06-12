@@ -5,7 +5,7 @@ import md.uno.game.models.Table;
 
 import java.util.ArrayList;
 
-public class Memory // todo remove safely table (acquire), player
+public class Memory
 {
     private static Memory instance;
 
@@ -114,12 +114,12 @@ public class Memory // todo remove safely table (acquire), player
         return null;
     }
 
-    private Table addTable()
-    {
-        Table table = new Table(getMaxPLayers());
-        tables.add(table);
-        return table;
-    }
+//    private Table addTable()
+//    {
+//        Table table = new Table(getMaxPLayers());
+//        tables.add(table);
+//        return table;
+//    }
 
     private Table addTable(ArrayList<Player> players) throws Exception
     {
@@ -144,6 +144,7 @@ public class Memory // todo remove safely table (acquire), player
     public void removeTable(Table table)
     {
         tables.remove(table);
+        tablePool.releaseTable(table);
     }
 
     public boolean isPlayerInLobby(Player player)
@@ -207,10 +208,11 @@ public class Memory // todo remove safely table (acquire), player
                 table.removePlayer(player);
                 if (table.checkForEndGame())
                 {
-                    for (Player tablePlayer : table.getPlayers())
+                    int size = table.getPlayers().size();
+                    for (int iteration = 0; iteration < size; iteration++)
                     {
-                        table.removePlayer(tablePlayer);
-                        lobby.add(tablePlayer);
+                        lobby.add(table.getPlayer(0));
+                        table.removePlayer(0);
                     }
                     removeTable(table);
                 }

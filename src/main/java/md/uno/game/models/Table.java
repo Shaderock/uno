@@ -82,9 +82,25 @@ public class Table implements IMediator, ITable
         player.setIMediator(null);
     }
 
+    public void removePlayer(int playerNumber)
+    {
+        removePlayer(players.get(playerNumber));
+    }
+
     public ArrayList<Player> getPlayers()
     {
         return players;
+    }
+
+    public Player getPlayer(int playerNumber)
+    {
+        try
+        {
+            return players.get(playerNumber);
+        } catch (IndexOutOfBoundsException e)
+        {
+            return null;
+        }
     }
 
     public MainDeck getMainDeck()
@@ -145,9 +161,9 @@ public class Table implements IMediator, ITable
 
     private void putFirstCardToMainDeck()
     {
-        for(int cardNumber = 0; cardNumber < deck.getSize(); cardNumber++)
+        for (int cardNumber = 0; cardNumber < deck.getSize(); cardNumber++)
         {
-            if (! (deck.getCard(0) instanceof SpecialCard))
+            if (!(deck.getCard(cardNumber) instanceof SpecialCard))
             {
                 deck.shiftCard(mainDeck, cardNumber);
                 return;
@@ -239,13 +255,36 @@ public class Table implements IMediator, ITable
         return players.isEmpty();
     }
 
+    public void reshuffle()
+    {
+        int size = mainDeck.getSize();
+        for (int i = 0; i < size - 1; i++)
+        {
+            mainDeck.shiftCard(deck, 0);
+        }
+        deck.shuffle();
+    }
+
 
     // ITable implementations
 
     @Override
     public void nextPlayerTakeCard()
     {
-        players.get(getNextPlayerNumber()).shiftCard(deck, deck.getSize() - 1);
+        try
+        {
+            deck.shiftCard(players.get(getNextPlayerNumber()), deck.getSize() - 1);
+        } catch (IndexOutOfBoundsException ignored)
+        {
+            reshuffle();
+            try
+            {
+                deck.shiftCard(players.get(getNextPlayerNumber()), deck.getSize() - 1);
+            }
+            catch (IndexOutOfBoundsException ignored1)
+            {
+            }
+        }
     }
 
     @Override
@@ -257,6 +296,10 @@ public class Table implements IMediator, ITable
     @Override
     public void switchDirection()
     {
+        if (players.size() == 2)
+        {
+            nextPlayerSkip();
+        }
         direction = !direction;
     }
 
@@ -274,12 +317,17 @@ public class Table implements IMediator, ITable
         {
             return;
         }
-
+        players.get(playerThatMoves).canTakeCard = true;
         playerThatMoves = getNextPlayerNumber();
         if (isNextPlayerSkipping)
         {
             playerThatMoves = getNextPlayerNumber();
             isNextPlayerSkipping = false;
+        }
+
+        if (deck.getSize() == 0)
+        {
+            reshuffle();
         }
     }
 
