@@ -249,13 +249,14 @@ body {
 	margin: 0 0 -1.3em 2.2em;
 	width: max-content;
 	padding: 0 0.2em;
+	border-radius: 0.5em;
+	background-color: white;
 }
 #player .player_name {
 	margin-bottom: 1em;
 }
 .player_turn .player_name {
 	background-color: lightgreen;
-	border-radius: 0.5em;
 }
 
 .player_hand {
@@ -308,9 +309,6 @@ body {
 .player_hand .card:nth-child(9) {
 	left: 19.8em;
 }
-.player_hand .card:nth-child(10) {
-	left: 22em;
-}
 
 #player.player_turn .player_hand .card {
   cursor: pointer;
@@ -340,10 +338,13 @@ body {
 #player_top .player_hand .card {
 	box-shadow: 0 -1px 3px rgba(0,0,0,0.12), 0 -1px 2px rgba(0,0,0,0.24);
 }
+#player_top .player_name {
+    transform: translateY(10.5em);
+}
 
 #player_right .player_hand {
   transform-origin: left bottom;
-  transform: rotate(-90deg) translate(-24em, 1em);
+  transform: rotate(-90deg) translate(-27em, 1em);
 }
 #player_right .player_hand .card {
 	box-shadow: -1px 0 3px rgba(0,0,0,0.12), -1px 0 2px rgba(0,0,0,0.24);
@@ -529,7 +530,7 @@ body {
 	margin: 15% auto;
 	background-color: white;
 	border-radius: 15px;
-	width: 40%;
+	width: 50%;
 	height: 32%;
 	box-shadow: 0 0.5em 30px rgba(0, 0, 0, 1);
 	text-align: center;
@@ -584,6 +585,7 @@ body {
 	margin-left: 3em;
 	width: max-content;
 	display: inline-block;
+	transform: translateY(1em);
 }
 #controls div{
 	width: auto;
