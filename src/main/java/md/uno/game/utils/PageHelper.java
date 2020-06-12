@@ -58,10 +58,10 @@ public class PageHelper //Helps to construct web-pages
 
             topPlayerHand = otherPlayersHands.get(1);
             topPlayerTurn = playerThatMoves == otherPlayerNumber ? "class=\"player_turn\"" : "";
+            otherPlayerNumber = table.getNextPlayerNumber(otherPlayerNumber);
 
             if (players.size() == 4)
             {
-                otherPlayerNumber = table.getNextPlayerNumber(otherPlayerNumber);
                 rightPlayerHand = otherPlayersHands.get(2);
                 rightPlayerTurn = playerThatMoves == otherPlayerNumber ? "class=\"player_turn\"" : "";
             }
